@@ -157,7 +157,8 @@ export default function AutocompleteDirective($document, $timeout, $sce, $q, tag
         loadOnEmpty: [Boolean, false],
         loadOnFocus: [Boolean, false],
         selectFirstMatch: [Boolean, true],
-        displayProperty: [String, '']
+        displayProperty: [String, ''],
+        closeOnSelect: [Boolean, true]
       });
 
       $scope.suggestionList = new SuggestionList($scope.source, $scope.options, $scope.events);
@@ -194,7 +195,9 @@ export default function AutocompleteDirective($document, $timeout, $sce, $q, tag
 
         if (suggestionList.selected) {
           tagsInput.addTag(angular.copy(suggestionList.selected));
-          suggestionList.reset();
+          if (options.closeOnSelect) {
+            suggestionList.reset();
+          }
           added = true;
         }
         return added;
