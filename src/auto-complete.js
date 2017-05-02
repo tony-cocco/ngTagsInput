@@ -214,7 +214,7 @@ export default function AutocompleteDirective($document, $timeout, $sce, $q, tag
       };
 
       tagsInput
-        .on('tag-added tag-removed invalid-tag input-blur', () => {
+        .on('tag-added tag-removed', () => {
           if (options.closeOnSelect) {
             suggestionList.reset();
           }
