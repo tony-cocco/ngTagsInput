@@ -1444,7 +1444,7 @@ describe('tags-input directive', () => {
 
     it('re-validates the element when the allow-leftover-text option changes', () => {
       // Arrange
-      compileWithForm('allow-leftover-text="true"', 'name="tags"');
+      compileWithForm('allow-leftover-text="true"', 'clear-text-on-add="false"', 'name="tags"');
       newTag('foo');
       newTag('Foo');
       isolateScope.events.trigger('input-blur');

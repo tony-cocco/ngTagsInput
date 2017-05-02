@@ -201,7 +201,8 @@ export default function TagsInputDirective($timeout, $document, $window, $q, tag
         allowLeftoverText: [Boolean, false],
         addFromAutocompleteOnly: [Boolean, false],
         spellcheck: [Boolean, true],
-        useStrings: [Boolean, false]
+        useStrings: [Boolean, false],
+        clearTextOnAdd: [Boolean, true]
       });
 
       $scope.tagList = new TagList($scope.options, $scope.events,
@@ -366,7 +367,9 @@ export default function TagsInputDirective($timeout, $document, $window, $q, tag
         .on('tag-removed', scope.onTagRemoved)
         .on('tag-clicked', scope.onTagClicked)
         .on('tag-added', () => {
-          scope.newTag.text('');
+          if (options.clearTextOnAdd) {
+            scope.newTag.text('');
+          }
         })
         .on('tag-added tag-removed', () => {
           scope.tags = tagList.getItems();
@@ -395,6 +398,9 @@ export default function TagsInputDirective($timeout, $document, $window, $q, tag
         .on('input-blur', () => {
           if (options.addOnBlur && !options.addFromAutocompleteOnly) {
             tagList.addText(scope.newTag.text());
+          }
+          if (options.allowLeftoverText && options.clearTextOnAdd) {
+            scope.newTag.text('');
           }
           element.triggerHandler('blur');
           setElementValidity();

@@ -215,6 +215,11 @@ export default function AutocompleteDirective($document, $timeout, $sce, $q, tag
 
       tagsInput
         .on('tag-added tag-removed invalid-tag input-blur', () => {
+          if (options.closeOnSelect) {
+            suggestionList.reset();
+          }
+        })
+        .on('invalid-tag input-blur', () => {
           suggestionList.reset();
         })
         .on('input-change', value => {
@@ -227,7 +232,7 @@ export default function AutocompleteDirective($document, $timeout, $sce, $q, tag
         })
         .on('input-focus', () => {
           let value = tagsInput.getCurrentTagText();
-          if (options.loadOnFocus && shouldLoadSuggestions(value)) {
+          if (options.loadOnFocus) {
             suggestionList.load(value, tagsInput.getTags());
           }
         })
